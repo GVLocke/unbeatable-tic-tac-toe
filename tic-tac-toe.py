@@ -119,8 +119,23 @@ def printBoard(board):
     print("| " + str(board[6] if isinstance(board[6], str) else " ") + " | " + str(board[7] if isinstance(board[7], str) else " ") + " | " + str(board[8] if isinstance(board[8], str) else " ") + " |")
     print("-------------")
 
+def checkWinner(board):
+    if (winning(board, huPlayer)):
+        print("You win!")
+        return True
+    elif (winning(board, aiPlayer)):
+        print("You lose!")
+        return True
+    elif (len(emptyIndices(board)) == 0):
+        print("Tie!")
+        return True
+    else:
+        return False
+
 printBoard(original_board)
 while 1:
+    if (checkWinner(original_board)):
+        break
     print("Choose a spot to place your move (0-8)")
     print("0 | 1 | 2")
     print("3 | 4 | 5")
@@ -135,14 +150,7 @@ while 1:
     else:
         original_board[player_move] = huPlayer
     printBoard(original_board)
-    if (winning(original_board, huPlayer)):
-        print("You win!")
-        break
-    elif (winning(original_board, aiPlayer)):
-        print("You lose!")
-        break
-    elif (len(emptyIndices(original_board)) == 0):
-        print("Tie!")
+    if (checkWinner(original_board)):
         break
     startTime = time.time()
     original_board[minmax(original_board, aiPlayer).getIndex()] = aiPlayer
