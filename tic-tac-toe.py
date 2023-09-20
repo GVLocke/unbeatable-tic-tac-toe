@@ -1,14 +1,7 @@
+import time
 print("Tic tac toe game")
-# The original board
-# ------------------
-#   0   |  X  |   
-# ------------------
-#       |  X  |    
-# ------------------
-#    0  |    |    0
-# ------------------
 
-original_board = ["O", "X", 2, 3, "X", 5, "O", 7, "O"]
+original_board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 # human
 huPlayer = "O"
 # bot
@@ -116,4 +109,44 @@ def minmax(newBoard, player):
     # return the chosen move object from the moves array
     return moves[bestMove]
 
-print(minmax(original_board, aiPlayer).getIndex())
+# print the board, if the index is an integer, print a space, otherwise print the letter
+def printBoard(board):
+    print("-------------")
+    print("| " + str(board[0] if isinstance(board[0], str) else " ") + " | " + str(board[1] if isinstance(board[1], str) else " ") + " | " + str(board[2] if isinstance(board[2], str) else " ") + " |")
+    print("-------------")
+    print("| " + str(board[3] if isinstance(board[3], str) else " ") + " | " + str(board[4] if isinstance(board[4], str) else " ") + " | " + str(board[5] if isinstance(board[5], str) else " ") + " |")
+    print("-------------")
+    print("| " + str(board[6] if isinstance(board[6], str) else " ") + " | " + str(board[7] if isinstance(board[7], str) else " ") + " | " + str(board[8] if isinstance(board[8], str) else " ") + " |")
+    print("-------------")
+
+printBoard(original_board)
+while 1:
+    print("Choose a spot to place your move (0-8)")
+    print("0 | 1 | 2")
+    print("3 | 4 | 5")
+    print("6 | 7 | 8")
+    player_move = int(input())
+    if (player_move < 0 or player_move > 8):
+        print("Invalid move, try again")
+        continue
+    elif (original_board[player_move] == "O" or original_board[player_move] == "X"):
+        print("Invalid move, try again")
+        continue
+    else:
+        original_board[player_move] = huPlayer
+    printBoard(original_board)
+    if (winning(original_board, huPlayer)):
+        print("You win!")
+        break
+    elif (winning(original_board, aiPlayer)):
+        print("You lose!")
+        break
+    elif (len(emptyIndices(original_board)) == 0):
+        print("Tie!")
+        break
+    startTime = time.time()
+    original_board[minmax(original_board, aiPlayer).getIndex()] = aiPlayer
+    endTime = time.time()
+    print("Computer's move:")
+    printBoard(original_board)
+    print("Time taken: {:.6f} seconds".format(endTime - startTime))
