@@ -26,18 +26,20 @@ class Move:
         return self.__index
     
     def setScore(self, score):
+        """Sets the score of the move"""
         self.__score = score
 
     def setIndex(self, index):
+        """Sets the index of the move"""
         self.__index = index
 
 
-# returns a list of empty spots on the board
 def emptyIndices(board):
+    """Returns a list of empty spots on the board"""
     return [x for x in board if x != "O" and x != "X"]
 
-# winning combinations using the board indices
 def winning(board, player):
+    """Returns true if the player has won, false otherwise"""
     if (
         (board[0] == player and board[1] == player and board[2] == player) or
         (board[3] == player and board[4] == player and board[5] == player) or
@@ -52,8 +54,8 @@ def winning(board, player):
     else:
         return False
     
-# the main minmax function, baby
 def minmax(newBoard, player):
+    """Returns a move object with the index and score of the best move using a recursive minimax algorithm"""
     # get the available spots
     available_spots = emptyIndices(newBoard)
 
@@ -109,8 +111,8 @@ def minmax(newBoard, player):
     # return the chosen move object from the moves array
     return moves[bestMove]
 
-# print the board, if the index is an integer, print a space, otherwise print the letter
 def printBoard(board):
+    """Prints the board"""
     print("-------------")
     print("| " + str(board[0] if isinstance(board[0], str) else " ") + " | " + str(board[1] if isinstance(board[1], str) else " ") + " | " + str(board[2] if isinstance(board[2], str) else " ") + " |")
     print("-------------")
@@ -120,6 +122,7 @@ def printBoard(board):
     print("-------------")
 
 def checkWinner(board):
+    """Checks if there is a winner or a tie"""
     if (winning(board, huPlayer)):
         print("You win!")
         return True
